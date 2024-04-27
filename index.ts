@@ -12,11 +12,12 @@ if (args.length > 0 && args[0]) {
   destroy = args[0] === "destroy";
 }
 
-async function program() {
-  const regionsResult = (await fetch("https://api.vultr.com/v2/regions").then(
-    (r) => r.json(),
-  )) as { regions: vultr.GetRegionResult[] };
+// const regionsResult = (await fetch("https://api.vultr.com/v2/regions").then(
+//   (r) => r.json(),
+// )) as { regions: vultr.GetRegionResult[] };
 
+
+async function program() {
   const userData = cloudConfigString.replace(
     /\$TS_AUTH_KEY/,
     process.env.TS_AUTH_KEY!,
@@ -43,6 +44,9 @@ async function main() {
     projectName: "tail-portal",
     stackName: "dev",
   });
+
+  // setup config
+  await stack.setConfig("vultr:apiKey", { value: process.env.VULTR_API_KEY! });
 
   if (destroy) {
     console.info("destroying stack...");
