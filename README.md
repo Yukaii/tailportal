@@ -18,26 +18,19 @@ Add the following ACL changes:
 "tagOwners": {
   "tag:tailportal": ["autogroup:admin"],
 },
-"ssh": [
-  // Allow all users to SSH into their own devices in check mode.
-  // Comment this section out if you want to define specific restrictions.
-  {
-    "action": "check",
-    "src":    ["autogroup:member"],
-    "dst":    ["autogroup:self"],
-    "users":  ["autogroup:nonroot", "root"],
-  },
-  {
-    "action": "accept",
-    // !!IMPORTANT Change this
-    "src":    ["autogroup:member"],
-    "dst":    ["tag:tailportal"],
-    "users":  ["autogroup:nonroot", "root"],
-  },
-],
 "autoApprovers": {
 	"exitNode": ["tag:tailportal"],
 },
+// Add ssh if you want to do more with the exit node
+"ssh": [
+  {
+    "action": "accept",
+    // !!IMPORTANT Change this
+    "src":    ["username@GitHub"],
+    "dst":    ["tag:tailportal"],
+    "users":  ["autogroup:nonroot", "root"],
+  },
+]
 ```
 
 2. Create tailscale authkey
