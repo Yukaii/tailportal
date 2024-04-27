@@ -2,8 +2,8 @@
   "name": "tailportal",
   "module": "index.ts",
   "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
+  "scripts": {
+    "start": "tsx index.ts"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -12,6 +12,9 @@
     "protobufjs"
   ],
   "dependencies": {
-    "@pulumi/pulumi": "^3.114.0"
+    "@ediri/vultr": "^2.19.0",
+    "@pulumi/pulumi": "^3.114.0",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.7.3"
   }
 }
