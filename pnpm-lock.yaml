@@ -14,6 +14,9 @@ dependencies:
   dotenv:
     specifier: ^16.4.5
     version: 16.4.5
+  nanoid:
+    specifier: ^5.0.7
+    version: 5.0.7
   tsx:
     specifier: ^4.7.3
     version: 4.7.3
@@ -1570,6 +1573,12 @@ packages:
 
   /ms@2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
+    dev: false
+
+  /nanoid@5.0.7:
+    resolution: {integrity: sha512-oLxFY2gd2IqnjcYyOXD8XGCftpGtZP2AbHbOkthDkvRywH5ayNtPVy9YlOPcHckXzbLTCHpkb7FB+yuxKV13pQ==}
+    engines: {node: ^18 || >=20}
+    hasBin: true
     dev: false
 
   /negotiator@0.6.3:
