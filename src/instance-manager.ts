@@ -61,7 +61,7 @@ export class InstanceManager {
       region,
     });
 
-    this.upStack();
+    return this.upStack();
   }
 
   async createInstances(
@@ -71,7 +71,7 @@ export class InstanceManager {
       this.instancesInfo.push({ provider, region }),
     );
 
-    this.upStack();
+    return this.upStack();
   }
 
   async removeInstance(instanceId: string) {
@@ -84,11 +84,12 @@ export class InstanceManager {
       }
     });
 
-    this.upStack();
+    return this.upStack();
   }
 
   async destroyStack() {
-    this.upStack();
+    this.instancesInfo = []
+    await this.upStack();
     await this.stack?.destroy({ onOutput: console.info });
   }
 
