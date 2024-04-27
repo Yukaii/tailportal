@@ -5,7 +5,7 @@ export interface Config {
 }
 
 export type InstanceInfo = {
-  provider: "vultr" | "aws" | "gcp" | "digitalocean";
+  provider: "vultr" | "aws-lightsail" | "aws-ec2" | "gcp" | "digitalocean" | "hetzner" | "linode";
   name: string;
   id: string;
   hostname: string;
