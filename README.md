@@ -6,6 +6,10 @@ Bring your own key and pay your own bill, then let it do the rest.
 
 ## Usage
 
+### Step 0: Install and setup pulumi CLI
+
+link
+
 ### Step 1: Configuring your Tailnet
 
 Add the following ACL changes:

@@ -86,14 +86,28 @@ const getProgram = () => async () => {
 };
 
 async function main() {
+  const stackName = "dev"
   stack = await LocalWorkspace.createOrSelectStack({
     program: getProgram(),
     projectName: "tail-portal",
-    stackName: "dev",
+    stackName,
+  }, {
+    envVars: {
+      // TODO: change to user provided option
+      PULUMI_CONFIG_PASSPHRASE: 'asdf'
+    },
+    projectSettings: {
+      name: 'tailportal',
+      runtime: 'nodejs'
+    },
+    stackSettings: {
+      [stackName]: {
+        config: {
+          'vultr:apiKey': process.env.VULTR_API_KEY!
+        }
+      }
+    }
   });
-
-  // setup config
-  await stack.setConfig("vultr:apiKey", { value: process.env.VULTR_API_KEY! });
 
   // set existing outputs
   instancesInfo = mapStackOutputToArray(await stack.outputs());
