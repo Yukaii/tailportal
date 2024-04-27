@@ -21,6 +21,11 @@ dependencies:
     specifier: ^5.0.0
     version: 5.4.5
 
+devDependencies:
+  prettier:
+    specifier: ^3.2.5
+    version: 3.2.5
+
 packages:
 
   /@ediri/vultr@2.19.0:
@@ -1799,6 +1804,12 @@ packages:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
     dev: false
+
+  /prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: true
 
   /proc-log@3.0.0:
     resolution: {integrity: sha512-++Vn7NS4Xf9NacaU9Xq3URUuqZETPsf8L4j5/ckhaRYsfPeRyzGw+iDjFhV/Jr3uNmTvvddEJFWh5R1gRgUH8A==}
