@@ -1,0 +1,17 @@
+{
+  "name": "tailportal",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "trustedDependencies": [
+    "protobufjs"
+  ],
+  "dependencies": {
+    "@pulumi/pulumi": "^3.114.0"
+  }
+}
