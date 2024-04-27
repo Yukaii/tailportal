@@ -1,8 +1,8 @@
 # tailportal
 
-Create tailscale exit node with simple commands
+Create a Tailscale exit node with simple commands.
 
-Bring your own key and pay your own bill, and let me do the rest.
+Bring your own key and pay your own bill, then let it do the rest.
 
 ## Usage
 
