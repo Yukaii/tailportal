@@ -38,7 +38,7 @@ Add the following ACL changes:
 
 2. Create tailscale authkey
 
-<img src="./docs/images/ts-authkey.png" width="300" alt="TS AuthKey Image" />
+<img src="./docs/images/ts-authkey.png" width="500" alt="TS AuthKey Image" />
 
 ### Step 2: Config Cloud Providers API
 
