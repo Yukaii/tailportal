@@ -19,14 +19,15 @@ async function program() {
 
   const userData = cloudConfigString.replace(
     /\$TS_AUTH_KEY/,
-    process.env.VULTR_API_KEY!,
+    process.env.TS_AUTH_KEY!,
   );
 
   const instanceResource = new vultr.Instance("instanceResource", {
     // alpine
-    osId: 2076,
+    osId: 2136,
     plan: "vc2-1c-1gb",
     region: "sgp",
+    backups: "disabled",
     userData,
     activationEmail: false,
   });
