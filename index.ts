@@ -3,7 +3,7 @@ import { LocalWorkspace } from "@pulumi/pulumi/automation";
 import * as vultr from "@ediri/vultr";
 import dotenv from "dotenv";
 import { cloudConfigString } from "./cloud-config";
-import { nanoid } from "nanoid"
+import { nanoid } from "nanoid";
 
 dotenv.config();
 
@@ -13,7 +13,7 @@ if (args.length > 0 && args[0]) {
   destroy = args[0] === "destroy";
 }
 
-let create = false
+let create = false;
 if (args.length > 0 && args[0]) {
   create = args[0] === "create";
 }
@@ -35,7 +35,6 @@ type InstanceInfo = {
   name: string;
   id: string;
   hostname: string;
-  ip: string;
 };
 type StackOutput = {
   [key: number]: {
@@ -47,22 +46,27 @@ function mapStackOutputToArray(output: StackOutput): InstanceInfo[] {
   return Object.values(output).map((v) => v.value);
 }
 
+function mapInstanceToOutput(name: string, instance: vultr.Instance) {
+  return pulumi
+    .all([instance.id, instance.hostname])
+    .apply(([id, hostname]) => ({ name, id, hostname }));
+}
+
 const getProgram = () => async () => {
+  if (destroy) {
+    return [];
+  }
+
   const existing = instancesInfo.map((info) => {
     const instance = vultr.Instance.get(info.name, info.id);
 
-    return {
-      name: pulumi.Output.create(info.name),
-      id: instance.id,
-      hostname: instance.hostname,
-      mainIp: instance.mainIp,
-    };
+    return mapInstanceToOutput(info.name, instance);
   });
 
-  const newInstances = []
+  const newInstances = [];
   // create new ones
   if (create) {
-    const name = `vultrInstance-${nanoid(5)}`
+    const name = `vultrInstance-${nanoid(5)}`;
     const instance = new vultr.Instance(name, {
       // alpine
       osId: 2136,
@@ -74,12 +78,8 @@ const getProgram = () => async () => {
       label: "tailportal",
       tags: ["tailportal"],
     });
-    newInstances.push({
-      name: pulumi.Output.create(name),
-      id: instance.id,
-      hostname: instance.hostname,
-      mainIp: instance.mainIp,
-    })
+
+    newInstances.push(mapInstanceToOutput(name, instance));
   }
 
   return [...existing, ...newInstances];
@@ -95,17 +95,18 @@ async function main() {
   // setup config
   await stack.setConfig("vultr:apiKey", { value: process.env.VULTR_API_KEY! });
 
+  // set existing outputs
+  instancesInfo = mapStackOutputToArray(await stack.outputs());
+
+  await stack.up({ onOutput: console.log });
+
+  // TODO: only run when everything is not needed
   if (destroy) {
     console.info("destroying stack...");
     await stack.destroy({ onOutput: console.info });
     console.info("stack destroy complete");
     process.exit(0);
   }
-
-  // set existing outputs
-  instancesInfo = mapStackOutputToArray(await stack.outputs());
-
-  await stack.up({ onOutput: console.log });
 }
 
 main().then((err) => console.error(err));
