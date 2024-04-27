@@ -86,28 +86,34 @@ const getProgram = () => async () => {
 };
 
 async function main() {
-  const stackName = "dev"
-  stack = await LocalWorkspace.createOrSelectStack({
-    program: getProgram(),
-    projectName: "tail-portal",
-    stackName,
-  }, {
-    envVars: {
-      // TODO: change to user provided option
-      PULUMI_CONFIG_PASSPHRASE: 'asdf'
+  const stackName = "dev";
+  const projectName = "tailportal";
+
+  stack = await LocalWorkspace.createOrSelectStack(
+    {
+      program: getProgram(),
+      projectName,
+      stackName,
     },
-    projectSettings: {
-      name: 'tailportal',
-      runtime: 'nodejs'
+    {
+      secretsProvider: "passphrase",
+      envVars: {
+        // TODO: change to user provided option
+        PULUMI_CONFIG_PASSPHRASE: process.env.PULUMI_CONFIG_PASSPHRASE!,
+      },
+      projectSettings: {
+        name: projectName,
+        runtime: "nodejs",
+      },
+      stackSettings: {
+        [stackName]: {
+          config: {
+            "vultr:apiKey": process.env.VULTR_API_KEY!,
+          },
+        },
+      },
     },
-    stackSettings: {
-      [stackName]: {
-        config: {
-          'vultr:apiKey': process.env.VULTR_API_KEY!
-        }
-      }
-    }
-  });
+  );
 
   // set existing outputs
   instancesInfo = mapStackOutputToArray(await stack.outputs());
