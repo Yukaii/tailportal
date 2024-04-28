@@ -1,3 +1,5 @@
+import type { Region as VultrRegionTypes } from "vultr-types/dist/types"
+
 export interface Config {
   tsAuthKey: string;
   vultrApiKey: string;
@@ -18,7 +20,7 @@ export type InstanceInfo = {
   hostname: string;
 };
 
-export type VultrRegion = "sgp";
+export type VultrRegion = VultrRegionTypes['id'];
 export type Region = VultrRegion;
 
 export type CreateInstanceInfo = Pick<InstanceInfo, "provider"> & {

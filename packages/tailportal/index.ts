@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
+import type { Region } from "vultr-types/dist/types"
 
 dotenv.config();
 
@@ -41,7 +42,10 @@ async function main() {
     }
     case "create": {
       const provider = "vultr";
-      const region = "sgp" || args[1];
+      let region = args[1] as unknown as Region['id'] ;
+      if (!region || !regions.map(reg => reg.id).includes(region)) {
+        region = "sgp"
+      }
       await instanceManager.createInstance(provider, region);
       return process.exit(0);
     }
