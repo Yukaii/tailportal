@@ -79,12 +79,12 @@ export class InstanceCreator {
         const instance = vultr.Instance.get(info.name, info.id);
         return mapInstanceToOutput(info.name, info.provider, instance);
       }
-      case "aws-lightsail":
-      case "aws-ec2":
       case "gcp": {
         const instance = gcp.compute.Instance.get(info.name, info.id);
         return mapInstanceToOutput(info.name, info.provider, instance);
       }
+      case "aws-lightsail":
+      case "aws-ec2":
       case "digitalocean":
       case "hetzner":
       case "linode":
