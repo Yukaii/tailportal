@@ -29,37 +29,12 @@ export async function generateTypings() {
     const regionData: { regions: Region[] } = await regionResponse.json();
     const { regions } = regionData;
 
-    const osTypes = os
-      .map(
-        (item) => `
-{
-  id: ${item.id},
-  name: '${item.name}',
-  arch: '${item.arch}',
-  family: '${item.family}'
-}
-`,
-      )
-      .join(" |\n");
-
-    const regionTypes = regions
-      .map(
-        (region) => `
-{
-  id: '${region.id}',
-  city: '${region.city}',
-  country: '${region.country}',
-  continent: '${region.continent}',
-  options: [${region.options.map((option) => `'${option}'`).join(", ")}]
-}
-`,
-      )
-      .join(" |\n");
-
     const typingContent = `
-export type OS = ${osTypes};
+export const os = ${JSON.stringify(os, null, 2)} as const;
+export type OS = typeof os[number];
 
-export type Region = ${regionTypes};
+export const regions = ${JSON.stringify(regions, null, 2)} as const;
+export type Region = typeof regions[number];
 `;
 
     const formattedTypingContent = await prettier.format(typingContent, {
@@ -70,28 +45,8 @@ export type Region = ${regionTypes};
     });
 
     fs.writeFileSync(
-      path.join(__dirname, "../src/types.ts"),
-      formattedTypingContent,
-    );
-
-    const dataContent = `
-import type { OS, Region } from './types';
-
-export const os: OS[] = ${JSON.stringify(os, null, 2)};
-
-export const regions: Region[] = ${JSON.stringify(regions, null, 2)};
-`;
-
-    const formattedDataContent = await prettier.format(dataContent, {
-      parser: "typescript",
-      singleQuote: true,
-      trailingComma: "all",
-      printWidth: 80,
-    });
-
-    fs.writeFileSync(
       path.join(__dirname, "../src/index.ts"),
-      formattedDataContent,
+      formattedTypingContent,
     );
     console.log("TypeScript typings and data generated successfully!");
   } catch (error) {

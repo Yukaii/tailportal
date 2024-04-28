@@ -1,7 +1,6 @@
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
-import { regions } from "vultr-types";
-import type { Region } from "vultr-types/dist/types";
+import { type Region, regions } from "vultr-types";
 import { type CloudProvider, cloudProviders } from "./src/types";
 
 dotenv.config();

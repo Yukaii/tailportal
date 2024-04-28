@@ -1,4 +1,4 @@
-import type { Region as VultrRegionTypes } from "vultr-types/dist/types";
+import type { Region as VultrRegionTypes } from "vultr-types";
 
 export interface Config {
   tsAuthKey: string;
