@@ -32,6 +32,9 @@ importers:
       tsx:
         specifier: ^4.7.3
         version: 4.7.3
+      vultr-types:
+        specifier: workspace:*
+        version: link:../vultr-types
 
   packages/vultr-types: {}
 

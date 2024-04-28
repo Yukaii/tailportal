@@ -14,6 +14,7 @@
     "@pulumi/pulumi": "^3.114.0",
     "dotenv": "^16.4.5",
     "nanoid": "^5.0.7",
-    "tsx": "^4.7.3"
+    "tsx": "^4.7.3",
+    "vultr-types": "workspace:*"
   }
 }

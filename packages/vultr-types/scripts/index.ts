@@ -1,4 +1,5 @@
 import fs from "fs";
+import path from "path";
 import prettier from "prettier";
 
 interface OS {
@@ -66,22 +67,24 @@ export type Region = ${regionTypes};
       printWidth: 80,
     });
 
-    fs.writeFileSync("vultr-typings.d.ts", formattedTypingContent);
+    fs.writeFileSync(path.join(__dirname, "../src/types.ts"), formattedTypingContent);
 
     const dataContent = `
-export const os = ${JSON.stringify(os, null, 2)};
+import type { OS, Region } from './types';
 
-export const regions = ${JSON.stringify(regions, null, 2)};
+export const os: OS[] = ${JSON.stringify(os, null, 2)};
+
+export const regions: Region[] = ${JSON.stringify(regions, null, 2)};
 `;
 
     const formattedDataContent = await prettier.format(dataContent, {
-      parser: "babel",
+      parser: "typescript",
       singleQuote: true,
       trailingComma: "all",
       printWidth: 80,
     });
 
-    fs.writeFileSync("vultr-data.js", formattedDataContent);
+    fs.writeFileSync(path.join(__dirname, "../src/index.ts"), formattedDataContent);
     console.log("TypeScript typings and data generated successfully!");
   } catch (error) {
     console.error("Error generating TypeScript typings:", error);

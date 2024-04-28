@@ -1,8 +1,12 @@
 {
   "name": "vultr-types",
   "description": "",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "gen:types": "tsx index.ts",
+    "gen:types": "tsx scripts/index.ts",
+    "build": "tsc",
     "fmt": "prettier --write ."
   }
 }
