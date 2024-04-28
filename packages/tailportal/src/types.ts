@@ -2,8 +2,10 @@ import type { Region as VultrRegionTypes } from "vultr-types/dist/types"
 
 export interface Config {
   tsAuthKey: string;
-  vultrApiKey: string;
   pulumiPassphrase: string;
+  vultrApiKey?: string;
+  googleProject?: string;
+  googleCredentials?: string;
 }
 
 export type InstanceInfo = {

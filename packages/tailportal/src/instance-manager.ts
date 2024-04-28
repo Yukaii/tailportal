@@ -116,25 +116,13 @@ export class InstanceManager {
   }
 
   private getOutputFromInfo(info: InstanceInfo) {
-    switch (info.provider) {
-      case "vultr": {
-        const instance = vultr.Instance.get(info.name, info.id);
-        return mapInstanceToOutput(info.name, info.provider, instance);
-      }
-      default:
-        throw new Error("provider not implemented yet");
-    }
+    const instanceCreator = new InstanceCreator(this.config);
+    return instanceCreator.getExistingInstance(info)
   }
 
   private getOutputFromCreateInfo(info: CreateInstanceInfo) {
-    switch (info.provider) {
-      case "vultr": {
-        const instanceCreator = new InstanceCreator(this.config);
-        return instanceCreator.createInstance(info.provider, info.region);
-      }
-      default:
-        throw new Error("provider not implemented yet");
-    }
+    const instanceCreator = new InstanceCreator(this.config);
+    return instanceCreator.createInstance(info.provider, info.region);
   }
 
   get currentInstances(): InstanceInfo[] {

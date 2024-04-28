@@ -38,6 +38,25 @@ export class InstanceCreator {
       }
       case "aws-lightsail":
       case "aws-ec2":
+      case "gcp": {
+      }
+      case "digitalocean":
+      case "hetzner":
+      case "linode":
+      default: {
+        throw new Error("Not implemented");
+      }
+    }
+  }
+
+  getExistingInstance (info: InstanceInfo) {
+    switch (info.provider) {
+      case "vultr": {
+        const instance = vultr.Instance.get(info.name, info.id);
+        return mapInstanceToOutput(info.name, info.provider, instance);
+      }
+      case "aws-lightsail":
+      case "aws-ec2":
       case "gcp":
       case "digitalocean":
       case "hetzner":
