@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
-import type { Region } from "vultr-types/dist/types"
+import type { Region } from "vultr-types/dist/types";
 
 dotenv.config();
 
@@ -32,22 +32,46 @@ async function main() {
   const stackName = "dev";
   const projectName = "tailportal";
 
-  const instanceManager = new InstanceManager(config, stackName, projectName);
-  await instanceManager.initializeStack();
-
   switch (command) {
-    case "destroy": {
-      await instanceManager.destroyStack();
-      return process.exit(0);
-    }
-    case "create": {
-      const provider = "vultr";
-      let region = args[1] as unknown as Region['id'] ;
-      if (!region || !regions.map(reg => reg.id).includes(region)) {
-        region = "sgp"
+    case "destroy":
+    case "create":
+    case "list":
+    case "remove":
+    case "sync": {
+      const instanceManager = new InstanceManager(config, stackName, projectName);
+      await instanceManager.initializeStack();
+
+      switch (command) {
+        case "destroy": {
+          await instanceManager.destroyStack();
+          return process.exit(0);
+        }
+        case "create": {
+          const provider = "vultr";
+          let region = args[1] as unknown as Region['id'];
+          if (!region || !regions.map(reg => reg.id).includes(region)) {
+            region = "sgp";
+          }
+          await instanceManager.createInstance(provider, region);
+          return process.exit(0);
+        }
+        case "list": {
+          const instances = instanceManager.currentInstances;
+          console.log(instances);
+          return;
+        }
+        case "remove": {
+          const name = args[1];
+          await instanceManager.removeInstance(name);
+          return;
+        }
+        case "sync": {
+          await instanceManager.refreshStack();
+          await instanceManager.upStack();
+          return;
+        }
       }
-      await instanceManager.createInstance(provider, region);
-      return process.exit(0);
+      break;
     }
     case "region": {
       const regionStrings = regions.map(
@@ -57,22 +81,8 @@ async function main() {
       console.log(regionStrings.join("\n"));
       break;
     }
-    case "list": {
-      const instances = instanceManager.currentInstances;
-      console.log(instances);
-      return;
-    }
-    case "remove": {
-      const name = args[1];
-      await instanceManager.removeInstance(name);
-      return;
-    }
     case "help": {
       displayHelp();
-      return;
-    }
-    case "sync": {
-      await instanceManager.upStack();
       return;
     }
     default: {
