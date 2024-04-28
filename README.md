@@ -41,6 +41,31 @@ Add the following ACL changes:
 
 TBD: Vultr/Digital Ocean/AWS
 
+
+### Step 3: Clone project and fill in `.env`
+
+I'll provide better config management in the future.
+
+```bash
+VULTR_API_KEY=
+PULUMI_CONFIG_PASSPHRASE=
+TS_AUTH_KEY=
+```
+
+### Step 4: Run
+
+```bash
+git clone https://github.com/Yukaii/tailportal
+pnpm install
+
+pnpm start
+
+pnpm start list
+pnpm start create
+pnpm start remov instance-name
+pnpm start destroy
+```
+
 ## TODOs
 
 - [ ] instance management: status, shutdown...
