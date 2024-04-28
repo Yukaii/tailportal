@@ -1,6 +1,6 @@
 import * as vultr from "@ediri/vultr";
 import { nanoid } from "nanoid";
-import { regions } from "vultr-types"
+import { regions } from "vultr-types";
 
 import type { Config, InstanceInfo, Region } from "./types";
 import { mapInstanceToOutput } from "./instance-mapper";
@@ -18,8 +18,8 @@ export class InstanceCreator {
 
     switch (provider) {
       case "vultr": {
-        if (!regions.map(reg => reg.id).includes(region)) {
-          throw new Error('Region not valid')
+        if (!regions.map((reg) => reg.id).includes(region)) {
+          throw new Error("Region not valid");
         }
 
         const instance = new vultr.Instance(name, {
@@ -43,7 +43,7 @@ export class InstanceCreator {
       case "hetzner":
       case "linode":
       default: {
-        throw new Error('Not implemented')
+        throw new Error("Not implemented");
       }
     }
   }
