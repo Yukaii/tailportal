@@ -46,6 +46,8 @@ export class InstanceManager {
           [this.stackName]: {
             config: {
               "vultr:apiKey": this.config.vultrApiKey,
+              "gcp:project": this.config.googleProject,
+              "gcp:credentials": this.config.googleCredentials,
             },
           },
         },

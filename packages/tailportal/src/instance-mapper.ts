@@ -1,11 +1,12 @@
-import { Instance } from "@ediri/vultr";
+import { Instance as VultrInstance } from "@ediri/vultr";
+import { compute } from "@pulumi/gcp"
 import * as pulumi from "@pulumi/pulumi";
 import type { InstanceInfo } from "./types";
 
 export function mapInstanceToOutput(
   name: string,
   provider: InstanceInfo["provider"],
-  instance: Instance,
+  instance: VultrInstance | compute.Instance,
 ) {
   // return {
   //   id: instance.id,

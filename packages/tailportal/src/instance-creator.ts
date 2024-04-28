@@ -1,10 +1,12 @@
 import * as vultr from "@ediri/vultr";
-import { nanoid } from "nanoid";
+import * as gcp from "@pulumi/gcp";
+import { customAlphabet } from "nanoid";
 import { regions } from "vultr-types";
+import YAML from 'yaml'
 
 import type { Config, InstanceInfo, Region } from "./types";
 import { mapInstanceToOutput } from "./instance-mapper";
-import { cloudConfigString } from "./cloud-config";
+import { cloudConfigString, startupScriptString } from "./cloud-config";
 
 export class InstanceCreator {
   private config: Config;
@@ -36,10 +38,32 @@ export class InstanceCreator {
 
         return mapInstanceToOutput(name, provider, instance);
       }
+      case "gcp": {
+        const instance = new gcp.compute.Instance(name, {
+          networkInterfaces: [{
+              accessConfigs: [{}],
+              network: "default",
+          }],
+          name,
+          machineType: "e2-micro",
+          zone: "us-central1-a",
+          tags: ["tailportal"],
+          bootDisk: {
+              initializeParams: {
+                  image: "debian-cloud/debian-11",
+              },
+          },
+          metadataStartupScript: this.getStartupScript(),
+          // TODO: user given metadata
+          metadata: {
+            "sshKeys": ""
+          }
+        })
+
+        return mapInstanceToOutput(name, provider, instance)
+      }
       case "aws-lightsail":
       case "aws-ec2":
-      case "gcp": {
-      }
       case "digitalocean":
       case "hetzner":
       case "linode":
@@ -57,7 +81,10 @@ export class InstanceCreator {
       }
       case "aws-lightsail":
       case "aws-ec2":
-      case "gcp":
+      case "gcp": {
+        const instance = gcp.compute.Instance.get(info.name, info.id);
+        return mapInstanceToOutput(info.name, info.provider, instance);
+      }
       case "digitalocean":
       case "hetzner":
       case "linode":
@@ -71,7 +98,12 @@ export class InstanceCreator {
     return cloudConfigString.replace(/\$TS_AUTH_KEY/, this.config.tsAuthKey);
   }
 
+  private getStartupScript() {
+    return startupScriptString.replace(/\$TS_AUTH_KEY/, this.config.tsAuthKey);
+  }
+
   private generateInstanceName(provider: InstanceInfo["provider"]) {
-    return `${provider}-instance-${nanoid(5)}`;
+    const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 6);
+    return `${provider}-instance-${nanoid()}`;
   }
 }

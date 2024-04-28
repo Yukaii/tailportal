@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
 import type { Region } from "vultr-types/dist/types";
+import { type CloudProvider, cloudProviders } from './src/types'
 
 dotenv.config();
 
@@ -25,8 +26,10 @@ if (args.length > 0 && commands.includes(args[0])) {
 async function main() {
   const config = {
     tsAuthKey: process.env.TS_AUTH_KEY!,
-    vultrApiKey: process.env.VULTR_API_KEY!,
     pulumiPassphrase: process.env.PULUMI_CONFIG_PASSPHRASE!,
+    vultrApiKey: process.env.VULTR_API_KEY,
+    googleProject: process.env.GOOGLE_PROJECT,
+    googleCredentials: process.env.GOOGLE_CREDENTIALS,
   };
 
   const stackName = "dev";
@@ -47,11 +50,18 @@ async function main() {
           return process.exit(0);
         }
         case "create": {
-          const provider = "vultr";
-          let region = args[1] as unknown as Region['id'];
+          let provider = args[1] as unknown as CloudProvider;
+          if (!provider || !cloudProviders.includes(provider)) {
+            provider = "vultr"
+          }
+
+          let region = args[2] as unknown as Region['id'];
           if (!region || !regions.map(reg => reg.id).includes(region)) {
             region = "sgp";
           }
+
+          console.debug(`creating instance through ${provider} in ${region}`)
+
           await instanceManager.createInstance(provider, region);
           return process.exit(0);
         }
@@ -97,7 +107,7 @@ function displayHelp() {
   console.log("");
   console.log("Commands:");
   console.log(
-    "  create [region]   Create a new instance (default region: sgp)",
+    "  create [provider] [region]   Create a new instance",
   );
   console.log("  destroy           Destroy the stack");
   console.log("  list              List current instances");
