@@ -16,6 +16,7 @@ export class InstanceCreator {
     const name = this.generateInstanceName(provider);
 
     const instance = new vultr.Instance(name, {
+      hostname: name,
       osId: 2136,
       plan: "vc2-1c-1gb",
       region,
