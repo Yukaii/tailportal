@@ -17,4 +17,4 @@ sudo sysctl -p /etc/sysctl.d/99-tailscale.conf
 
 # Start Tailscale
 tailscale up --authkey=$TS_AUTH_KEY --advertise-exit-node --ssh
-`
+`;

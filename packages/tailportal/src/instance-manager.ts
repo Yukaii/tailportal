@@ -119,7 +119,7 @@ export class InstanceManager {
 
   private getOutputFromInfo(info: InstanceInfo) {
     const instanceCreator = new InstanceCreator(this.config);
-    return instanceCreator.getExistingInstance(info)
+    return instanceCreator.getExistingInstance(info);
   }
 
   private getOutputFromCreateInfo(info: CreateInstanceInfo) {

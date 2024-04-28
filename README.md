@@ -41,7 +41,6 @@ Add the following ACL changes:
 
 TBD: Vultr/Digital Ocean/AWS
 
-
 ### Step 3: Clone project and fill in `.env`
 
 I'll provide better config management in the future.
@@ -70,6 +69,13 @@ pnpm start destroy
 
 - [ ] instance management: status, shutdown...
 - [ ] simple TUI
+
+## Appendix A: Startup times (for reference only)
+
+| Provider | Startup time (seconds) |
+| -------- | ---------------------- |
+| vultr    | 70 secs                |
+| gcp      | ~40 secs               |
 
 ## CLI draft
 

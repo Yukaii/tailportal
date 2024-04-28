@@ -1,5 +1,5 @@
 import { Instance as VultrInstance } from "@ediri/vultr";
-import { compute } from "@pulumi/gcp"
+import { compute } from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import type { InstanceInfo } from "./types";
 

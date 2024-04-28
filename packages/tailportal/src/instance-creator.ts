@@ -2,7 +2,7 @@ import * as vultr from "@ediri/vultr";
 import * as gcp from "@pulumi/gcp";
 import { customAlphabet } from "nanoid";
 import { regions } from "vultr-types";
-import YAML from 'yaml'
+import YAML from "yaml";
 
 import type { Config, InstanceInfo, Region } from "./types";
 import { mapInstanceToOutput } from "./instance-mapper";
@@ -40,27 +40,29 @@ export class InstanceCreator {
       }
       case "gcp": {
         const instance = new gcp.compute.Instance(name, {
-          networkInterfaces: [{
+          networkInterfaces: [
+            {
               accessConfigs: [{}],
               network: "default",
-          }],
+            },
+          ],
           name,
           machineType: "e2-micro",
           zone: "us-central1-a",
           tags: ["tailportal"],
           bootDisk: {
-              initializeParams: {
-                  image: "debian-cloud/debian-11",
-              },
+            initializeParams: {
+              image: "debian-cloud/debian-11",
+            },
           },
           metadataStartupScript: this.getStartupScript(),
           // TODO: user given metadata
           metadata: {
-            "sshKeys": ""
-          }
-        })
+            sshKeys: "",
+          },
+        });
 
-        return mapInstanceToOutput(name, provider, instance)
+        return mapInstanceToOutput(name, provider, instance);
       }
       case "aws-lightsail":
       case "aws-ec2":
@@ -73,7 +75,7 @@ export class InstanceCreator {
     }
   }
 
-  getExistingInstance (info: InstanceInfo) {
+  getExistingInstance(info: InstanceInfo) {
     switch (info.provider) {
       case "vultr": {
         const instance = vultr.Instance.get(info.name, info.id);
@@ -103,7 +105,7 @@ export class InstanceCreator {
   }
 
   private generateInstanceName(provider: InstanceInfo["provider"]) {
-    const nanoid = customAlphabet('abcdefghijklmnopqrstuvwxyz0123456789', 6);
+    const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 6);
     return `${provider}-instance-${nanoid()}`;
   }
 }

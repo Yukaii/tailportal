@@ -18,7 +18,7 @@ export const cloudProviders = [
   "linode",
 ] as const;
 
-export type CloudProvider = typeof cloudProviders[number];
+export type CloudProvider = (typeof cloudProviders)[number];
 
 export type InstanceInfo = {
   provider: CloudProvider;

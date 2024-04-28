@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
 import type { Region } from "vultr-types/dist/types";
-import { type CloudProvider, cloudProviders } from './src/types'
+import { type CloudProvider, cloudProviders } from "./src/types";
 
 dotenv.config();
 
@@ -41,7 +41,11 @@ async function main() {
     case "list":
     case "remove":
     case "sync": {
-      const instanceManager = new InstanceManager(config, stackName, projectName);
+      const instanceManager = new InstanceManager(
+        config,
+        stackName,
+        projectName,
+      );
       await instanceManager.initializeStack();
 
       switch (command) {
@@ -52,15 +56,15 @@ async function main() {
         case "create": {
           let provider = args[1] as unknown as CloudProvider;
           if (!provider || !cloudProviders.includes(provider)) {
-            provider = "vultr"
+            provider = "vultr";
           }
 
-          let region = args[2] as unknown as Region['id'];
-          if (!region || !regions.map(reg => reg.id).includes(region)) {
+          let region = args[2] as unknown as Region["id"];
+          if (!region || !regions.map((reg) => reg.id).includes(region)) {
             region = "sgp";
           }
 
-          console.debug(`creating instance through ${provider} in ${region}`)
+          console.debug(`creating instance through ${provider} in ${region}`);
 
           await instanceManager.createInstance(provider, region);
           return process.exit(0);
@@ -106,9 +110,7 @@ function displayHelp() {
   console.log("Usage: npm start [command] [options]");
   console.log("");
   console.log("Commands:");
-  console.log(
-    "  create [provider] [region]   Create a new instance",
-  );
+  console.log("  create [provider] [region]   Create a new instance");
   console.log("  destroy           Destroy the stack");
   console.log("  list              List current instances");
   console.log("  remove [name]     Remove an instance by name");

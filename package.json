@@ -1,7 +1,8 @@
 {
   "name": "tailportal-monorepo",
   "scripts": {
-    "start": "pnpm --filter tailportal start"
+    "start": "pnpm --filter tailportal start",
+    "fmt": "pnpm --filter=* fmt"
   },
   "dependencies": {
   },
