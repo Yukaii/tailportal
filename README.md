@@ -77,6 +77,10 @@ pnpm start destroy
 | vultr    | 70 secs                |
 | gcp      | ~40 secs               |
 
+
+<details>
+<summary>CLI draft</summary>
+
 ## CLI draft
 
 WIP WIP WIP
@@ -132,6 +136,8 @@ WIP WIP WIP
 - `tailportal regions --provider=aws --detail` : Show detailed information about each AWS region
 - `tailportal providers` : List available cloud providers
 - `tailportal providers --detail` : Show detailed information about each provider (e.g. supported regions, instance types)
+
+</details>
 
 ## License
 
