@@ -1,0 +1,8 @@
+{
+  "name": "vultr-types",
+  "description": "",
+  "scripts": {
+    "gen:types": "tsx index.ts",
+    "fmt": "prettier --write ."
+  }
+}
