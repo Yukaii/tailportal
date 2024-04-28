@@ -6,9 +6,6 @@
     "start": "tsx index.ts",
     "fmt": "npx prettier --write ."
   },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
   "trustedDependencies": [
     "protobufjs"
   ],

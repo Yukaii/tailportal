@@ -11,6 +11,9 @@ importers:
       prettier:
         specifier: ^3.2.5
         version: 3.2.5
+      typescript:
+        specifier: ^5.0.0
+        version: 5.4.5
 
   packages/tailportal:
     dependencies:
@@ -29,13 +32,8 @@ importers:
       tsx:
         specifier: ^4.7.3
         version: 4.7.3
-      typescript:
-        specifier: ^5.0.0
-        version: 5.4.5
-    devDependencies:
-      prettier:
-        specifier: ^3.2.5
-        version: 3.2.5
+
+  packages/vultr-types: {}
 
 packages:
 
@@ -2179,7 +2177,6 @@ packages:
     resolution: {integrity: sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==}
     engines: {node: '>=14.17'}
     hasBin: true
-    dev: false
 
   /undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
