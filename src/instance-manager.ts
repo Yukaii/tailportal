@@ -74,11 +74,11 @@ export class InstanceManager {
     return this.upStack();
   }
 
-  async removeInstance(instanceId: string) {
+  async removeInstance(name: string) {
     this.instancesInfo = this.instancesInfo.filter((_info) => {
-      if ((_info as any).id !== "undefined") {
+      if ((_info as any).name !== "undefined") {
         const info = _info as InstanceInfo;
-        return info.id !== instanceId;
+        return info.name !== name;
       } else {
         return _info;
       }
@@ -88,7 +88,7 @@ export class InstanceManager {
   }
 
   async destroyStack() {
-    this.instancesInfo = []
+    this.instancesInfo = [];
     await this.upStack();
     await this.stack?.destroy({ onOutput: console.info });
   }
@@ -135,6 +135,10 @@ export class InstanceManager {
       default:
         throw new Error("provider not implemented yet");
     }
+  }
+
+  get currentInstances(): InstanceInfo[] {
+    return this.getExistingInstanceInfo();
   }
 
   private getExistingInstanceInfo(): InstanceInfo[] {

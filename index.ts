@@ -4,8 +4,13 @@ import { InstanceManager } from "./src/instance-manager";
 dotenv.config();
 
 const args = process.argv.slice(2);
-const destroy = args.length > 0 && args[0] === "destroy";
-const create = args.length > 0 && args[0] === "create";
+const commands = ["destroy", "create", "list", "remove"];
+
+let command: null | string = null;
+
+if (args.length > 0 && commands.includes(args[0])) {
+  command = args[0];
+}
 
 async function main() {
   const config = {
@@ -20,14 +25,31 @@ async function main() {
   const instanceManager = new InstanceManager(config, stackName, projectName);
   await instanceManager.initializeStack();
 
-  if (destroy) {
-    await instanceManager.destroyStack();
-    process.exit(0);
-  } else if (create) {
-    await instanceManager.createInstance("vultr", "sgp");
-  } else {
-    // sync up
-    await instanceManager.upStack();
+  switch (command) {
+    case "destroy": {
+      await instanceManager.destroyStack();
+      return process.exit(0);
+    }
+    case "create": {
+      const provider = "vultr";
+      const region = "sgp";
+      await instanceManager.createInstance(provider, region);
+      return process.exit(0);
+    }
+    case "list": {
+      const instances = instanceManager.currentInstances;
+      console.log(instances);
+      return;
+    }
+    case "remove": {
+      const name = args[1];
+      await instanceManager.removeInstance(name);
+      return;
+    }
+    default: {
+      // up stack
+      await instanceManager.upStack();
+    }
   }
 }
 
