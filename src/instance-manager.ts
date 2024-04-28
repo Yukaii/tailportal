@@ -76,11 +76,11 @@ export class InstanceManager {
 
   async removeInstance(name: string) {
     this.instancesInfo = this.instancesInfo.filter((_info) => {
-      if ((_info as any).name !== "undefined") {
+      if (!!(_info as any).name) {
         const info = _info as InstanceInfo;
         return info.name !== name;
       } else {
-        return _info;
+        return true;
       }
     });
 
