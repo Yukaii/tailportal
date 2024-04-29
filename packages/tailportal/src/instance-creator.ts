@@ -2,7 +2,6 @@ import * as vultr from "@ediri/vultr";
 import * as gcp from "@pulumi/gcp";
 import { customAlphabet } from "nanoid";
 import { regions } from "vultr-types";
-import YAML from "yaml";
 
 import type { Config, InstanceInfo, Region } from "./types";
 import { mapInstanceToOutput } from "./instance-mapper";
