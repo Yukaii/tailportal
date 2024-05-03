@@ -1,6 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
 import { LocalWorkspace } from "@pulumi/pulumi/automation";
-import vultr from "@ediri/vultr";
 
 import type {
   Config,
@@ -11,7 +10,6 @@ import type {
 } from "./types";
 import { InstanceCreator } from "./instance-creator";
 import { mapStackOutputToArray } from "./stack-output";
-import { mapInstanceToOutput } from "./instance-mapper";
 
 export class InstanceManager {
   private config: Config;
