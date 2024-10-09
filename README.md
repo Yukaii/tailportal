@@ -2,7 +2,7 @@
 
 Create a Tailscale exit node with simple commands.
 
-Bring your own key and pay your own bill, then let it do the rest.
+Bring your own key and pay your own bill, then let me do the rest.
 
 ## Usage
 
