@@ -31,13 +31,17 @@ program
   .command("create <provider> [region]")
   .description("Create a new instance")
   .action(async (provider: string, region: string | undefined) => {
-    const validatedProvider: CloudProvider = cloudProviders.includes(provider as CloudProvider)
-      ? provider as CloudProvider
+    const validatedProvider: CloudProvider = cloudProviders.includes(
+      provider as CloudProvider,
+    )
+      ? (provider as CloudProvider)
       : "vultr";
-    const validatedRegion = (region && regions.some((reg) => reg.id === region)
-      ? region
-      : "sgp") as (typeof regions)[number]["id"];
-    console.debug(`creating instance through ${validatedProvider} in ${validatedRegion}`);
+    const validatedRegion = (
+      region && regions.some((reg) => reg.id === region) ? region : "sgp"
+    ) as (typeof regions)[number]["id"];
+    console.debug(
+      `creating instance through ${validatedProvider} in ${validatedRegion}`,
+    );
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
     await instanceManager.createInstance(validatedProvider, validatedRegion);
