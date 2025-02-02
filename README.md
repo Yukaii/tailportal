@@ -41,7 +41,7 @@ Add the following ACL changes:
 
 TBD: Vultr/Digital Ocean/AWS
 
-### Step 3: Clone project and fill in `.env`
+### Step 3: Clone project and fill in `./packages/tailportal/.env`
 
 I'll provide better config management in the future.
 
