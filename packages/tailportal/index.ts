@@ -3,6 +3,7 @@ import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
 import { type CloudProvider, cloudProviders } from "./src/types";
 import { program } from "commander";
+import { z } from "zod";
 
 dotenv.config();
 
@@ -31,20 +32,36 @@ program
   .command("create <provider> [region]")
   .description("Create a new instance")
   .action(async (provider: string, region: string | undefined) => {
-    const validatedProvider: CloudProvider = cloudProviders.includes(
-      provider as CloudProvider,
-    )
-      ? (provider as CloudProvider)
-      : "vultr";
-    const validatedRegion = (
-      region && regions.some((reg) => reg.id === region) ? region : "sgp"
-    ) as (typeof regions)[number]["id"];
+    const createSchema = z.object({
+      provider: z.string(),
+      region: z.string().optional(),
+    });
+    const parseResult = createSchema.safeParse({ provider, region });
+    if (!parseResult.success) {
+      console.error("Invalid input:", parseResult.error.format());
+      console.error(`Available providers: ${cloudProviders.join(", ")}`);
+      console.error(`Available regions: ${regions.map(reg => reg.id).join(", ")}`);
+      process.exit(1);
+    }
+    const parsed = parseResult.data;
+    if (!cloudProviders.includes(parsed.provider as CloudProvider)) {
+      console.error(`Invalid provider: ${parsed.provider}`);
+      console.error(`Available providers: ${cloudProviders.join(", ")}`);
+      process.exit(1);
+    }
+    const validProvider = parsed.provider as CloudProvider;
+    if (!parsed.region || !regions.some((reg) => reg.id === parsed.region)) {
+      console.error(`Invalid or missing region: ${parsed.region}`);
+      console.error(`Available regions: ${regions.map(reg => reg.id).join(", ")}`);
+      process.exit(1);
+    }
+    const validRegion = parsed.region as (typeof regions)[number]["id"];
     console.debug(
-      `creating instance through ${validatedProvider} in ${validatedRegion}`,
+      `creating instance through ${validProvider} in ${validRegion}`,
     );
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
-    await instanceManager.createInstance(validatedProvider, validatedRegion);
+    await instanceManager.createInstance(validProvider, validRegion);
     process.exit(0);
   });
 

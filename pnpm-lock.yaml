@@ -44,6 +44,9 @@ importers:
       vultr-types:
         specifier: workspace:*
         version: link:../vultr-types
+      zod:
+        specifier: ^3.24.1
+        version: 3.24.1
 
   packages/vultr-types: {}
 
@@ -1365,6 +1368,9 @@ packages:
   yocto-queue@1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+
+  zod@3.24.1:
+    resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
 snapshots:
 
@@ -2780,3 +2786,5 @@ snapshots:
       yargs-parser: 21.1.1
 
   yocto-queue@1.0.0: {}
+
+  zod@3.24.1: {}
