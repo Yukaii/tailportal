@@ -1,5 +1,5 @@
 import type * as pulumi from "@pulumi/pulumi";
-import { LocalWorkspace } from "@pulumi/pulumi/automation";
+import { LocalWorkspace } from "@pulumi/pulumi/automation/index.js";
 
 import type {
   Config,

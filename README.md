@@ -4,6 +4,14 @@ Create a Tailscale exit node with simple commands.
 
 Bring your own key and pay your own bill, then let me do the rest.
 
+## Installation
+
+Install tailportal globally with npm:
+
+```bash
+npm install -g tailportal
+```
+
 ## Usage
 
 ### Step 0: Install and setup pulumi CLI
@@ -41,27 +49,38 @@ Add the following ACL changes:
 
 TBD: Vultr/Digital Ocean/AWS
 
-### Step 3: Clone project and fill in `./packages/tailportal/.env`
+### Step 3: Set environment variables
 
-I'll provide better config management in the future.
+Create a `.env` file or set these environment variables:
 
 ```bash
-VULTR_API_KEY=
-PULUMI_CONFIG_PASSPHRASE=
-TS_AUTH_KEY=
+VULTR_API_KEY=your_vultr_api_key
+PULUMI_CONFIG_PASSPHRASE=your_pulumi_passphrase
+TS_AUTH_KEY=your_tailscale_auth_key
 ```
 
 ### Step 4: Run
+
+Once installed globally and environment variables are set:
+
+```bash
+tailportal --help
+tailportal list
+tailportal create vultr ewr
+tailportal remove instance-name
+tailportal destroy
+```
+
+#### For development (from source):
 
 ```bash
 git clone https://github.com/Yukaii/tailportal
 pnpm install
 
 pnpm start
-
 pnpm start list
 pnpm start create
-pnpm start remov instance-name
+pnpm start remove instance-name
 pnpm start destroy
 ```
 

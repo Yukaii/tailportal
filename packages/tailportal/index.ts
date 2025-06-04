@@ -1,6 +1,8 @@
+#!/usr/bin/env node
+
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
-import { regions } from "vultr-types";
+import { regions } from "./src/vultr-regions";
 import { type CloudProvider, cloudProviders } from "./src/types";
 import { program } from "commander";
 import { z } from "zod";
