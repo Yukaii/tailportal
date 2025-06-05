@@ -2,7 +2,13 @@
   "name": "tailportal",
   "version": "0.1.0",
   "description": "Create a Tailscale exit node with simple commands",
-  "keywords": ["tailscale", "exit-node", "vpn", "cloud", "cli"],
+  "keywords": [
+    "tailscale",
+    "exit-node",
+    "vpn",
+    "cloud",
+    "cli"
+  ],
   "author": "Yukaii",
   "license": "MIT",
   "repository": {

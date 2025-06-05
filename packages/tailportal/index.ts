@@ -42,7 +42,9 @@ program
     if (!parseResult.success) {
       console.error("Invalid input:", parseResult.error.format());
       console.error(`Available providers: ${cloudProviders.join(", ")}`);
-      console.error(`Available regions: ${regions.map(reg => reg.id).join(", ")}`);
+      console.error(
+        `Available regions: ${regions.map((reg) => reg.id).join(", ")}`,
+      );
       process.exit(1);
     }
     const parsed = parseResult.data;
@@ -54,7 +56,9 @@ program
     const validProvider = parsed.provider as CloudProvider;
     if (!parsed.region || !regions.some((reg) => reg.id === parsed.region)) {
       console.error(`Invalid or missing region: ${parsed.region}`);
-      console.error(`Available regions: ${regions.map(reg => reg.id).join(", ")}`);
+      console.error(
+        `Available regions: ${regions.map((reg) => reg.id).join(", ")}`,
+      );
       process.exit(1);
     }
     const validRegion = parsed.region as (typeof regions)[number]["id"];
