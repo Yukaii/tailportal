@@ -31,7 +31,7 @@
   },
   "type": "commonjs",
   "scripts": {
-    "build": "esbuild index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=dist/index.js --external:@pulumi/pulumi --external:@pulumi/gcp --external:@ediri/vultr --external:commander --external:dotenv --external:nanoid --external:tsx --external:zod",
+    "build": "esbuild index.ts --bundle --platform=node --target=node18 --format=cjs --outfile=dist/index.js --external:@pulumi/pulumi --external:@pulumi/gcp --external:@ediri/vultr --external:commander --external:dotenv --external:nanoid --external:tsx --external:zod --external:vultr-types",
     "prepublishOnly": "npm run build",
     "test": "../../e2e/test-installation.sh",
     "start": "tsx index.ts",
@@ -48,6 +48,7 @@
     "dotenv": "^16.4.5",
     "nanoid": "^5.0.7",
     "tsx": "^4.7.3",
+    "vultr-types": "workspace:*",
     "zod": "^3.24.1"
   },
   "devDependencies": {
