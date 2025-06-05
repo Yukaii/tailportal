@@ -6,11 +6,23 @@ Bring your own key and pay your own bill, then let me do the rest.
 
 ## Installation
 
-Install tailportal globally with npm:
+### Stable Release
+
+Install the latest stable version globally with npm:
 
 ```bash
 npm install -g tailportal
 ```
+
+### Beta Release
+
+For the latest features and fixes, you can install the beta version which is automatically published from the main branch:
+
+```bash
+npm install -g tailportal@beta
+```
+
+> **Note**: Both stable and beta releases are automatically published via GitHub Actions. Stable releases are published when version tags are created, while beta releases are published on every push to the main branch.
 
 ## Usage
 
@@ -65,21 +77,26 @@ Once installed globally and environment variables are set:
 
 ```bash
 tailportal --help
-tailportal list
-tailportal create vultr ewr
-tailportal remove instance-name
-tailportal destroy
+tailportal region                # List available regions
+tailportal list                  # List current instances
+tailportal create vultr ewr      # Create instance on Vultr in Newark
+tailportal remove instance-name  # Remove specific instance
+tailportal destroy               # Destroy the entire stack
 ```
 
 #### For development (from source):
 
 ```bash
 git clone https://github.com/Yukaii/tailportal
+cd tailportal
 pnpm install
 
-pnpm start
+# From the tailportal package directory
+cd packages/tailportal
+pnpm start --help
+pnpm start region
 pnpm start list
-pnpm start create
+pnpm start create vultr ewr
 pnpm start remove instance-name
 pnpm start destroy
 ```
