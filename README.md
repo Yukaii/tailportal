@@ -61,7 +61,11 @@ Add the following ACL changes:
 
 TBD: Vultr/Digital Ocean/AWS
 
-### Step 3: Set environment variables
+### Step 3: Configuration
+
+You can configure tailportal using either environment variables or a JSON configuration file.
+
+#### Option A: Environment Variables
 
 Create a `.env` file or set these environment variables:
 
@@ -70,6 +74,43 @@ VULTR_API_KEY=your_vultr_api_key
 PULUMI_CONFIG_PASSPHRASE=your_pulumi_passphrase
 TS_AUTH_KEY=your_tailscale_auth_key
 ```
+
+#### Option B: JSON Configuration
+
+Create a configuration file in one of the following locations (in order of preference):
+
+1. `$XDG_CONFIG_HOME/tailportal/config.json` (if XDG_CONFIG_HOME is set)
+2. `~/.config/tailportal/config.json` (recommended)
+3. `~/.tailportal.json` (legacy location)
+
+Example configuration:
+
+```json
+{
+  "tsAuthKey": "your_tailscale_auth_key",
+  "pulumiPassphrase": "your_pulumi_passphrase",
+  "vultrApiKey": "your_vultr_api_key",
+  "googleProject": "your_google_project",
+  "googleCredentials": "your_google_credentials"
+}
+```
+
+You can also use environment variable interpolation in the JSON config:
+
+```json
+{
+  "tsAuthKey": "$TS_AUTH_KEY",
+  "pulumiPassphrase": "$PULUMI_CONFIG_PASSPHRASE",
+  "vultrApiKey": "$VULTR_API_KEY"
+}
+```
+
+**Configuration File Locations** (searched in order):
+- `$XDG_CONFIG_HOME/tailportal/config.json` (if XDG_CONFIG_HOME is set)
+- `~/.config/tailportal/config.json` (XDG Base Directory fallback)
+- `~/.tailportal.json` (legacy location for backward compatibility)
+
+**Note:** JSON configuration takes precedence over environment variables. If both are present, JSON values will be used.
 
 ### Step 4: Run
 

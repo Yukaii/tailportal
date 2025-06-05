@@ -6,22 +6,9 @@ import { regions } from "vultr-types";
 import { type CloudProvider, cloudProviders } from "./src/types";
 import { program } from "commander";
 import { z } from "zod";
+import { loadConfig } from "./src/config";
 
 dotenv.config();
-
-function validateEnvironment() {
-  const tsAuthKey = process.env.TS_AUTH_KEY;
-  if (!tsAuthKey) {
-    throw new Error("TS_AUTH_KEY environment variable is required");
-  }
-
-  const pulumiPassphrase = process.env.PULUMI_CONFIG_PASSPHRASE;
-  if (!pulumiPassphrase) {
-    throw new Error("PULUMI_CONFIG_PASSPHRASE environment variable is required");
-  }
-
-  return { tsAuthKey, pulumiPassphrase };
-}
 
 const stackName = "dev";
 const projectName = "tailportal";
@@ -36,14 +23,7 @@ program
   .command("create <provider> [region]")
   .description("Create a new instance")
   .action(async (provider: string, region: string | undefined) => {
-    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
-    const config = {
-      tsAuthKey,
-      pulumiPassphrase,
-      vultrApiKey: process.env.VULTR_API_KEY,
-      googleProject: process.env.GOOGLE_PROJECT,
-      googleCredentials: process.env.GOOGLE_CREDENTIALS,
-    };
+    const config = loadConfig();
 
     const createSchema = z.object({
       provider: z.string(),
@@ -86,14 +66,7 @@ program
   .command("destroy")
   .description("Destroy the stack")
   .action(async () => {
-    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
-    const config = {
-      tsAuthKey,
-      pulumiPassphrase,
-      vultrApiKey: process.env.VULTR_API_KEY,
-      googleProject: process.env.GOOGLE_PROJECT,
-      googleCredentials: process.env.GOOGLE_CREDENTIALS,
-    };
+    const config = loadConfig();
 
     
     const instanceManager = new InstanceManager(config, stackName, projectName);
@@ -106,14 +79,7 @@ program
   .command("list")
   .description("List current instances")
   .action(async () => {
-    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
-    const config = {
-      tsAuthKey,
-      pulumiPassphrase,
-      vultrApiKey: process.env.VULTR_API_KEY,
-      googleProject: process.env.GOOGLE_PROJECT,
-      googleCredentials: process.env.GOOGLE_CREDENTIALS,
-    };
+    const config = loadConfig();
 
     
     const instanceManager = new InstanceManager(config, stackName, projectName);
@@ -125,14 +91,7 @@ program
   .command("remove <name>")
   .description("Remove an instance by name")
   .action(async (name: string) => {
-    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
-    const config = {
-      tsAuthKey,
-      pulumiPassphrase,
-      vultrApiKey: process.env.VULTR_API_KEY,
-      googleProject: process.env.GOOGLE_PROJECT,
-      googleCredentials: process.env.GOOGLE_CREDENTIALS,
-    };
+    const config = loadConfig();
 
     
     const instanceManager = new InstanceManager(config, stackName, projectName);
@@ -155,14 +114,7 @@ program
   .command("sync")
   .description("Synchronize the stack with the current state")
   .action(async () => {
-    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
-    const config = {
-      tsAuthKey,
-      pulumiPassphrase,
-      vultrApiKey: process.env.VULTR_API_KEY,
-      googleProject: process.env.GOOGLE_PROJECT,
-      googleCredentials: process.env.GOOGLE_CREDENTIALS,
-    };
+    const config = loadConfig();
 
     
     const instanceManager = new InstanceManager(config, stackName, projectName);
