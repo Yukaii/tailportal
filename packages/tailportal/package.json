@@ -25,7 +25,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "esbuild index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.js --external:@pulumi/pulumi --external:@pulumi/gcp --external:@ediri/vultr --packages=external",
+    "build": "esbuild index.ts --bundle --platform=node --target=node18 --format=esm --outfile=dist/index.js --external:@pulumi/pulumi --external:@pulumi/gcp --external:@ediri/vultr --external:commander --external:dotenv --external:nanoid --external:tsx --external:zod",
     "prepublishOnly": "npm run build",
     "test": "../../e2e/test-installation.sh",
     "start": "tsx index.ts",

@@ -2,7 +2,7 @@
 
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
-import { regions } from "./src/vultr-regions";
+import { regions } from "vultr-types";
 import { type CloudProvider, cloudProviders } from "./src/types";
 import { program } from "commander";
 import { z } from "zod";
