@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import dotenv from "dotenv";
 import { InstanceManager } from "./src/instance-manager";
 import { regions } from "vultr-types";
