@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 import prettier from "prettier";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 interface OS {
   id: number;
@@ -17,7 +19,7 @@ interface Region {
   options: string[];
 }
 
-const __dirname = import.meta.dirname;
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export async function generateTypings() {
   try {
