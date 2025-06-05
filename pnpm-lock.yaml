@@ -41,6 +41,9 @@ importers:
       tsx:
         specifier: ^4.7.3
         version: 4.7.3
+      vultr-types:
+        specifier: workspace:*
+        version: link:../vultr-types
       zod:
         specifier: ^3.24.1
         version: 3.24.1

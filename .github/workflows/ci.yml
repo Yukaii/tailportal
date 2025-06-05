@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build packages
+        run: |
+          cd packages/vultr-types && pnpm build
+          cd ../tailportal && pnpm build
+
+      - name: Run tests (if any)
+        run: |
+          if [ -f "packages/tailportal/package.json" ] && grep -q '"test"' packages/tailportal/package.json; then
+            cd packages/tailportal && pnpm test
+          fi
