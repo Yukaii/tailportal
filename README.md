@@ -77,7 +77,13 @@ TS_AUTH_KEY=your_tailscale_auth_key
 
 #### Option B: JSON Configuration
 
-Create a `tailportal.json` file in your current directory:
+Create a configuration file in one of the following locations (in order of preference):
+
+1. `$XDG_CONFIG_HOME/tailportal/config.json` (if XDG_CONFIG_HOME is set)
+2. `~/.config/tailportal/config.json` (recommended)
+3. `~/.tailportal.json` (legacy location)
+
+Example configuration:
 
 ```json
 {
@@ -99,10 +105,10 @@ You can also use environment variable interpolation in the JSON config:
 }
 ```
 
-**Configuration File Locations:**
-- `./tailportal.json` (current directory)
-- `./.tailportal.json` (current directory, hidden)
-- `~/.tailportal.json` (home directory)
+**Configuration File Locations** (searched in order):
+- `$XDG_CONFIG_HOME/tailportal/config.json` (if XDG_CONFIG_HOME is set)
+- `~/.config/tailportal/config.json` (XDG Base Directory fallback)
+- `~/.tailportal.json` (legacy location for backward compatibility)
 
 **Note:** JSON configuration takes precedence over environment variables. If both are present, JSON values will be used.
 

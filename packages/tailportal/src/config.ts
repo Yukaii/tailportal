@@ -35,15 +35,17 @@ function interpolateObject(obj: any): any {
 /**
  * Attempts to load configuration from JSON files.
  * Looks for configuration files in the following order:
- * 1. ./tailportal.json
- * 2. ./.tailportal.json
- * 3. ~/.tailportal.json
+ * 1. $XDG_CONFIG_HOME/tailportal/config.json (if XDG_CONFIG_HOME is set)
+ * 2. ~/.config/tailportal/config.json (fallback)
+ * 3. ~/.tailportal.json (backward compatibility)
  */
 function loadJsonConfig(): Partial<Config> | null {
+  const homeDir = process.env.HOME || "~";
+  const xdgConfigHome = process.env.XDG_CONFIG_HOME || join(homeDir, ".config");
+  
   const configPaths = [
-    "./tailportal.json",
-    "./.tailportal.json", 
-    join(process.env.HOME || "~", ".tailportal.json")
+    join(xdgConfigHome, "tailportal", "config.json"),
+    join(homeDir, ".tailportal.json")
   ];
 
   for (const configPath of configPaths) {
