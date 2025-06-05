@@ -40,7 +40,7 @@ fi
 
 # Test basic CLI functionality - should fail without environment variables
 echo "🧪 Testing environment variable validation..."
-if node_modules/.bin/tailportal --help 2>&1 | grep -q "TS_AUTH_KEY.*required"; then
+if node_modules/.bin/tailportal create vultr 2>&1 | grep -q "TS_AUTH_KEY.*required"; then
     echo "✅ CLI properly validates environment variables"
 else
     echo "❌ CLI should require environment variables"
@@ -63,7 +63,7 @@ cp "node_modules/tailportal/dist/index.js" "$TEST_DIR/global/bin/tailportal"
 chmod +x "$TEST_DIR/global/bin/tailportal"
 
 # Test that the binary can be executed (will fail on env vars but that's expected)
-if "$TEST_DIR/global/bin/tailportal" 2>&1 | grep -q "TS_AUTH_KEY.*required"; then
+if "$TEST_DIR/global/bin/tailportal" create vultr 2>&1 | grep -q "TS_AUTH_KEY.*required"; then
     echo "✅ Global installation test passed - CLI properly validates environment"
 else
     echo "❌ Global installation test failed"

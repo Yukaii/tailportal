@@ -9,31 +9,42 @@ import { z } from "zod";
 
 dotenv.config();
 
-const tsAuthKey = process.env.TS_AUTH_KEY;
-if (!tsAuthKey) {
-  throw new Error("TS_AUTH_KEY environment variable is required");
-}
+function validateEnvironment() {
+  const tsAuthKey = process.env.TS_AUTH_KEY;
+  if (!tsAuthKey) {
+    throw new Error("TS_AUTH_KEY environment variable is required");
+  }
 
-const pulumiPassphrase = process.env.PULUMI_CONFIG_PASSPHRASE;
-if (!pulumiPassphrase) {
-  throw new Error("PULUMI_CONFIG_PASSPHRASE environment variable is required");
-}
+  const pulumiPassphrase = process.env.PULUMI_CONFIG_PASSPHRASE;
+  if (!pulumiPassphrase) {
+    throw new Error("PULUMI_CONFIG_PASSPHRASE environment variable is required");
+  }
 
-const config = {
-  tsAuthKey,
-  pulumiPassphrase,
-  vultrApiKey: process.env.VULTR_API_KEY,
-  googleProject: process.env.GOOGLE_PROJECT,
-  googleCredentials: process.env.GOOGLE_CREDENTIALS,
-};
+  return { tsAuthKey, pulumiPassphrase };
+}
 
 const stackName = "dev";
 const projectName = "tailportal";
+
+// Add help and version to the program
+program
+  .name("tailportal")
+  .description("Create a Tailscale exit node with simple commands")
+  .version("0.1.0");
 
 program
   .command("create <provider> [region]")
   .description("Create a new instance")
   .action(async (provider: string, region: string | undefined) => {
+    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
+    const config = {
+      tsAuthKey,
+      pulumiPassphrase,
+      vultrApiKey: process.env.VULTR_API_KEY,
+      googleProject: process.env.GOOGLE_PROJECT,
+      googleCredentials: process.env.GOOGLE_CREDENTIALS,
+    };
+
     const createSchema = z.object({
       provider: z.string(),
       region: z.string().optional(),
@@ -75,6 +86,16 @@ program
   .command("destroy")
   .description("Destroy the stack")
   .action(async () => {
+    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
+    const config = {
+      tsAuthKey,
+      pulumiPassphrase,
+      vultrApiKey: process.env.VULTR_API_KEY,
+      googleProject: process.env.GOOGLE_PROJECT,
+      googleCredentials: process.env.GOOGLE_CREDENTIALS,
+    };
+
+    
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
     await instanceManager.destroyStack();
@@ -85,6 +106,16 @@ program
   .command("list")
   .description("List current instances")
   .action(async () => {
+    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
+    const config = {
+      tsAuthKey,
+      pulumiPassphrase,
+      vultrApiKey: process.env.VULTR_API_KEY,
+      googleProject: process.env.GOOGLE_PROJECT,
+      googleCredentials: process.env.GOOGLE_CREDENTIALS,
+    };
+
+    
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
     console.log(instanceManager.currentInstances);
@@ -94,6 +125,16 @@ program
   .command("remove <name>")
   .description("Remove an instance by name")
   .action(async (name: string) => {
+    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
+    const config = {
+      tsAuthKey,
+      pulumiPassphrase,
+      vultrApiKey: process.env.VULTR_API_KEY,
+      googleProject: process.env.GOOGLE_PROJECT,
+      googleCredentials: process.env.GOOGLE_CREDENTIALS,
+    };
+
+    
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
     await instanceManager.removeInstance(name);
@@ -114,17 +155,20 @@ program
   .command("sync")
   .description("Synchronize the stack with the current state")
   .action(async () => {
+    const { tsAuthKey, pulumiPassphrase } = validateEnvironment();
+    const config = {
+      tsAuthKey,
+      pulumiPassphrase,
+      vultrApiKey: process.env.VULTR_API_KEY,
+      googleProject: process.env.GOOGLE_PROJECT,
+      googleCredentials: process.env.GOOGLE_CREDENTIALS,
+    };
+
+    
     const instanceManager = new InstanceManager(config, stackName, projectName);
     await instanceManager.initializeStack();
     await instanceManager.refreshStack();
     await instanceManager.upStack();
-  });
-
-program
-  .command("help")
-  .description("Display help message")
-  .action(() => {
-    program.outputHelp();
   });
 
 program.parse(process.argv);
